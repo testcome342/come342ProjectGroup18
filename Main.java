@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.Model.CreativeStaff;
+
 import java.util.*;
 
 public class Main {
@@ -7,6 +9,7 @@ public class Main {
     public static void main(String[] args) {
         Map<String, Client> clients = new HashMap<>();
         Map<String, Campaign> campaigns = new HashMap<>();
+        Map<String, CreativeStaff> staffs = new HashMap<>();
         /*Creating new client for test*/
         Client client1 = new Client("Mnm", "Fenerbahçe", "Talip");
         /*Addling client object to a listing purpose arraylist*/
@@ -21,6 +24,21 @@ public class Main {
         campaigns.put("campaign2", campaign2);
         /*Adding campaign to client*/
         client1.addNewCampaign(campaign1);
+
+        /*Creating new creative staff*/
+        CreativeStaff staff1 = new CreativeStaff(1, "staffNumberOne", "02/05/2018", "staffNumberOne@agate.com");
+        /*Creating new creative staff*/
+        CreativeStaff staff2 = new CreativeStaff(2, "staffNumberTwo", "03/05/2018", "staffNumberTwo@agate.com");
+        /*Adding staff object to a listing purpose arrayList*/
+        staffs.put("staff1", staff1);
+        /*Adding staff object to a listing purpose arrayList*/
+        staffs.put("staff2", staff2);
+        /*Adding staff to campaign1*/
+        campaign1.addNewStaffToCampaign(staff1);
+        campaign1.addNewStaffToCampaign(staff2);
+        /*Adding staff to campaign2*/
+        campaign2.addNewStaffToCampaign(staff2);
+
         /*User choice value*/
         int choice;
 
@@ -35,6 +53,13 @@ public class Main {
         String title;
         String campaignStartDate;
         String campaignFinishDate;
+
+        /*User created staff attributes*/
+        String staffName;
+        int staffNo;
+        String staffStartDate;
+        String staffEmailAddress;
+
         int estimatedCost;
 
         Scanner input = new Scanner(System.in);
@@ -48,6 +73,10 @@ public class Main {
             System.out.println("4) List all Clients");
             System.out.println("5) Add Campaign to Client");
             System.out.println("6) List client campaigns");
+            System.out.println("7) List staffs of campaign");
+            System.out.println("8) Create new staff");
+            System.out.println("9) List add Staffs");
+
             /*Choice value*/
             choice = input.nextInt();
             switch (choice) {
@@ -177,15 +206,76 @@ public class Main {
                     /*Getting the client that entered*/
                     Client client2 = clients.get(clientName);
                     /*Checking if client has campaign, if not return a message*/
-                    if (client2.getClientCampaigns().size() > 0){
+                    if (client2.getClientCampaigns().size() > 0) {
                         for (int key = 0; key < client2.getClientCampaigns().size(); key++) {
-                            System.out.print("Client name : " + clientName);
+                            System.out.print("Campaign name : " + clientName);
                             System.out.println(" |  Campaign title : " + client2.getClientCampaigns().get(key).getTitle() + " |  Campaign start date : " + client2.getClientCampaigns().get(key).getCampaignStartDate() + " | Campaign finish date : " + client2.getClientCampaigns().get(key).getCampaignFinishDate() + " |  Campaign estimated cost : " + client2.getClientCampaigns().get(key).getEstimatedCost());
                         }
-                    } else{
+                    } else {
                         System.out.println("This client doesn't have any campaign");
                     }
 
+                    break;
+                case 7:
+                    /*Getting client name*/
+                    System.out.println("Enter a campaign name");
+                    campaignName = input.nextLine();
+                    campaignName = input.nextLine();
+                    /*Checking if campaign exist, if not re-enter client name*/
+                    if (!campaigns.containsKey(campaignName)) {
+                        do {
+                            System.out.println("There is not a campaign with this name, please choose one of these");
+                            for (String key : campaigns.keySet()) {
+                                System.out.println("Campaign name : " + key);
+                            }
+                            System.out.println("Enter a campaign name");
+                            campaignName = input.nextLine();
+                        } while (!campaigns.containsKey(campaignName));
+
+                    }
+                    /*Getting the client that entered*/
+                    Campaign campaign3 = campaigns.get(campaignName);
+                    /*Checking if client has campaign, if not return a message*/
+                    if (campaign3.getCreativeStaffOfCampaign().size() > 0) {
+                        for (int key = 0; key < campaign3.getCreativeStaffOfCampaign().size(); key++) {
+                            System.out.print("Client name : " + campaignName);
+                            System.out.println(" |  Staff No : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffNo() + " |  Staff Name : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffName() + " | Staff Start Date : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffStartDate() + " |  Staff Email Address : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffEmailAddress());
+                        }
+                    } else {
+                        System.out.println("This client doesn't have any campaign");
+                    }
+                case 8:
+                    /*Getting client name*/
+                    System.out.println("Enter Staff name");
+                    staffName = input.nextLine();
+                    staffName = input.nextLine();
+                    /*Checking if client exist if exist re-enter client name*/
+                    if (staffs.containsKey(staffName)) {
+                        do {
+                            System.out.println("There is a staff with this name, please enter again");
+                            staffName = input.nextLine();
+                        } while (clients.containsKey(staffName));
+
+                    }
+                    /*Getting company name*/
+                    System.out.println("Enter staff no");
+                    staffNo = input.nextInt();
+                    /*Getting company name*/
+                    System.out.println("Enter staff start date");
+                    staffStartDate = input.nextLine();
+                    staffStartDate = input.nextLine();
+                    /*Getting contact name*/
+                    System.out.println("Enter staff email address");
+                    staffEmailAddress = input.nextLine();
+                    /*Putting new client object to clients map*/
+                    staffs.put(staffName, new CreativeStaff(staffNo, staffName, staffStartDate, staffEmailAddress));
+                    break;
+                case 9:
+                    /*Listing all the staff*/
+                    for (String key : staffs.keySet()) {
+                        System.out.print("Staff name : " + key);
+                        System.out.println(" |  Staff No : " + staffs.get(key).getStaffNo() + " |  Staff Name : " + staffs.get(key).getStaffName() + " | Staff Start Date : " + staffs.get(key).getStaffStartDate() + " |  Staff Email Address : " + staffs.get(key).getStaffEmailAddress());
+                    }
                     break;
                 default:
                     /*Exit message*/
