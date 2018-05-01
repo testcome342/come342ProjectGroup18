@@ -10,6 +10,7 @@ public class Main {
         Map<String, Client> clients = new HashMap<>();
         Map<String, Campaign> campaigns = new HashMap<>();
         Map<String, CreativeStaff> staffs = new HashMap<>();
+        Map<String, Advert> adverts = new HashMap<>();
         /*Creating new client for test*/
         Client client1 = new Client("Mnm", "Fenerbahçe", "Talip");
         /*Addling client object to a listing purpose arraylist*/
@@ -39,6 +40,13 @@ public class Main {
         /*Adding staff to campaign2*/
         campaign2.addNewStaffToCampaign(staff2);
 
+        /*Creating new magazine advert*/
+        MagazineAdvert magazineAdvert1 = new MagazineAdvert("Famous", "yarın", 500, 750);
+        /*Adding advert object to a listing purpose arrayList*/
+        adverts.put("magazineAdvert1", magazineAdvert1);
+        /*Adding magazine advert to campaign*/
+        campaign2.addNewAdvert(magazineAdvert1);
+
         /*User choice value*/
         int choice;
 
@@ -59,8 +67,17 @@ public class Main {
         int staffNo;
         String staffStartDate;
         String staffEmailAddress;
-
         int estimatedCost;
+
+        /*User created advert attributes*/
+        String advertName;
+        int advertChoice;
+        String advertType;
+        String advertTitle;
+        String targetCompletionDate;
+        int estimatedAdvertCost;
+        int actualAdvertCost;
+        Advert advert = new Advert();
 
         Scanner input = new Scanner(System.in);
 
@@ -76,6 +93,9 @@ public class Main {
             System.out.println("7) List staffs of campaign");
             System.out.println("8) Create new staff");
             System.out.println("9) List add Staffs");
+            System.out.println("10) Create new Advert");
+            System.out.println("11) List all Adverts");
+
 
             /*Choice value*/
             choice = input.nextInt();
@@ -219,6 +239,9 @@ public class Main {
                 case 7:
                     /*Getting client name*/
                     System.out.println("Enter a campaign name");
+                    for (String key : campaigns.keySet()) {
+                        System.out.println("Campaign name : " + key);
+                    }
                     campaignName = input.nextLine();
                     campaignName = input.nextLine();
                     /*Checking if campaign exist, if not re-enter client name*/
@@ -245,7 +268,7 @@ public class Main {
                         System.out.println("This client doesn't have any campaign");
                     }
                 case 8:
-                    /*Getting client name*/
+                    /*Getting Staff name*/
                     System.out.println("Enter Staff name");
                     staffName = input.nextLine();
                     staffName = input.nextLine();
@@ -254,20 +277,20 @@ public class Main {
                         do {
                             System.out.println("There is a staff with this name, please enter again");
                             staffName = input.nextLine();
-                        } while (clients.containsKey(staffName));
+                        } while (staffs.containsKey(staffName));
 
                     }
-                    /*Getting company name*/
+                    /*Getting staff no*/
                     System.out.println("Enter staff no");
                     staffNo = input.nextInt();
-                    /*Getting company name*/
+                    /*Getting staff start date*/
                     System.out.println("Enter staff start date");
                     staffStartDate = input.nextLine();
                     staffStartDate = input.nextLine();
-                    /*Getting contact name*/
+                    /*Getting staff email address*/
                     System.out.println("Enter staff email address");
                     staffEmailAddress = input.nextLine();
-                    /*Putting new client object to clients map*/
+                    /*Putting new staff object to staffs map*/
                     staffs.put(staffName, new CreativeStaff(staffNo, staffName, staffStartDate, staffEmailAddress));
                     break;
                 case 9:
@@ -275,6 +298,69 @@ public class Main {
                     for (String key : staffs.keySet()) {
                         System.out.print("Staff name : " + key);
                         System.out.println(" |  Staff No : " + staffs.get(key).getStaffNo() + " |  Staff Name : " + staffs.get(key).getStaffName() + " | Staff Start Date : " + staffs.get(key).getStaffStartDate() + " |  Staff Email Address : " + staffs.get(key).getStaffEmailAddress());
+                    }
+                    break;
+                case 10:
+                    /*Getting Advert name*/
+                    System.out.println("Enter Advert name");
+                    advertName = input.nextLine();
+                    advertName = input.nextLine();
+                    /*Checking if client exist if exist re-enter advert name*/
+                    if (adverts.containsKey(advertName)) {
+                        do {
+                            System.out.println("There is a advert with this name, please enter again");
+                            staffName = input.nextLine();
+                        } while (adverts.containsKey(advertName));
+
+                    }
+
+                    /*Getting advert title*/
+                    System.out.println("Enter advert title");
+                    advertTitle = input.nextLine();
+                    /*Getting advert title*/
+                    System.out.println("Enter advert target completion date");
+                    targetCompletionDate = input.nextLine();
+                    /*Getting contact name*/
+                    System.out.println("Enter estimated advert cost");
+                    estimatedAdvertCost = input.nextInt();
+                    System.out.println("Enter actual advert cost");
+                    actualAdvertCost = input.nextInt();
+
+                    /*Getting advert type*/
+                    System.out.println("Select advert type");
+                    System.out.println("1) Magazine");
+                    System.out.println("2) Leaflet");
+                    System.out.println("3) Newspaper");
+                    System.out.println("4) Poser");
+                    System.out.println("5) Radio");
+
+                    advertChoice = input.nextInt();
+                    switch (advertChoice) {
+                        case 1:
+                            advert = new MagazineAdvert(advertTitle, targetCompletionDate, estimatedAdvertCost, actualAdvertCost);
+                            break;
+                        case 2:
+                            advert = new LeafletAdvert(advertTitle, targetCompletionDate, estimatedAdvertCost, actualAdvertCost);
+                            break;
+                        case 3:
+                            advert = new NewspaperAdvert(advertTitle, targetCompletionDate, estimatedAdvertCost, actualAdvertCost);
+                            break;
+                        case 4:
+                            advert = new PosterAdvert(advertTitle, targetCompletionDate, estimatedAdvertCost, actualAdvertCost);
+                            break;
+                        case 5:
+                            advert = new RadioAdvert(advertTitle, targetCompletionDate, estimatedAdvertCost, actualAdvertCost);
+                            break;
+                    }
+
+                    /*Putting new advert object to adverts map*/
+                    adverts.put(advertName, advert);
+                    break;
+                case 11:
+                    /*Listing all the adverts*/
+                    for (String key : adverts.keySet()) {
+                        System.out.print("Advert name : " + key);
+                        System.out.println(" | Advert type : " + adverts.get(key).getAdvertType() + " | Advert Title : " + adverts.get(key).getAdvertTitle() + " | Advert target completion date : " + adverts.get(key).getTargetCompletionDate() + " | Advert estimated cost : " + adverts.get(key).getEstimatedAdvertCost() + " | Advert actual cost : " + adverts.get(key).getActualAdvertCost());
                     }
                     break;
                 default:
