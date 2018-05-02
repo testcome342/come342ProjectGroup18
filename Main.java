@@ -92,9 +92,11 @@ public class Main {
             System.out.println("6) List client campaigns");
             System.out.println("7) List staffs of campaign");
             System.out.println("8) Create new staff");
-            System.out.println("9) List add Staffs");
+            System.out.println("9) List all Staffs");
             System.out.println("10) Create new Advert");
             System.out.println("11) List all Adverts");
+            System.out.println("12) Add staff to campaign");
+
 
 
             /*Choice value*/
@@ -261,12 +263,13 @@ public class Main {
                     /*Checking if client has campaign, if not return a message*/
                     if (campaign3.getCreativeStaffOfCampaign().size() > 0) {
                         for (int key = 0; key < campaign3.getCreativeStaffOfCampaign().size(); key++) {
-                            System.out.print("Client name : " + campaignName);
+                            System.out.print("Campaign name : " + campaignName);
                             System.out.println(" |  Staff No : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffNo() + " |  Staff Name : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffName() + " | Staff Start Date : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffStartDate() + " |  Staff Email Address : " + campaign3.getCreativeStaffOfCampaign().get(key).getStaffEmailAddress());
                         }
                     } else {
                         System.out.println("This client doesn't have any campaign");
                     }
+                    break;
                 case 8:
                     /*Getting Staff name*/
                     System.out.println("Enter Staff name");
@@ -362,6 +365,51 @@ public class Main {
                         System.out.print("Advert name : " + key);
                         System.out.println(" | Advert type : " + adverts.get(key).getAdvertType() + " | Advert Title : " + adverts.get(key).getAdvertTitle() + " | Advert target completion date : " + adverts.get(key).getTargetCompletionDate() + " | Advert estimated cost : " + adverts.get(key).getEstimatedAdvertCost() + " | Advert actual cost : " + adverts.get(key).getActualAdvertCost());
                     }
+                    break;
+                case 12:
+                    /*Getting client name*/
+                    System.out.println("Enter a staff name that you want to add campaign");
+                    for (String key : staffs.keySet()) {
+                        System.out.println("Staff name : " + key);
+                    }
+                    staffName = input.nextLine();
+                    staffName = input.nextLine();
+                    /*Checking if campaign exist, if not re-enter client name*/
+                    if (!staffs.containsKey(staffName)) {
+                        do {
+                            System.out.println("There is not a staff with this name, please choose one of these");
+                            for (String key : staffs.keySet()) {
+                                System.out.println("Staff name : " + key);
+                            }
+                            System.out.println("Enter a staff name that you want to add campaign");
+                            staffName = input.nextLine();
+                        } while (!staffs.containsKey(staffName));
+
+                    }
+                    /*Getting campaign name*/
+                    System.out.println("Enter a campaign name to add the staff");
+                    for (String key : campaigns.keySet()) {
+                        System.out.println("Campaign name : " + key);
+                    }
+                    campaignName = input.nextLine();
+                    /*Checking if campaign exist, if not re-enter campaign name*/
+                    if (!campaigns.containsKey(campaignName)) {
+                        do {
+                            System.out.println("There is not a campaign with this name, please choose one of these");
+                            for (String key : campaigns.keySet()) {
+                                System.out.println("Campaign name : " + key);
+                            }
+                            System.out.println("Enter a campaign name to add the staff");
+                            campaignName = input.nextLine();
+                        } while (!campaigns.containsKey(campaignName));
+
+                    }
+                    /*Getting the campaign that entered*/
+                    Campaign campaign4 = campaigns.get(campaignName);
+                    /*Getting the client that entered*/
+                    CreativeStaff staff3 = staffs.get(staffName);
+                    /*Adding the campaign to client*/
+                    campaign4.addNewStaffToCampaign(staff3);
                     break;
                 default:
                     /*Exit message*/
