@@ -11,4 +11,4 @@ Talip Can Korkmazer - github.com/tkorkmazer (group leader)
 
 Uml Class Diagrams
 
-https://www.lucidchart.com/invitations/accept/b31a827b-8bce-4bf8-a063-b58e17be27e7
+https://www.lucidchart.com/documents/view/5a76f290-f5a5-4318-9722-fe5f5e1f8340/0
